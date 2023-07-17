@@ -537,7 +537,7 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
             const state = _class.state as RenPyClassStates[RenPyModuleClassNames.Say];
 
-            return `${state[1].who === undefined ? '' : `${state[1].who} `}"${state[1].what}"\n`;
+            return `${state[1].who === null ? '' : `${state[1].who} `}"${state[1].what}"\n`;
 
             break; }
 
