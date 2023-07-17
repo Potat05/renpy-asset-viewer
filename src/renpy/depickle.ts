@@ -10,7 +10,7 @@
 
     Usually the first opcode is PROTO, this defines the protocol of the pickle.
     Each protocol has a set of opcodes and rules it has to follow.
-    We only support protocol 3, 4, & 5 (For now), as they don't include anything special or extra, just new opcodes.
+    We only support protocol 2, 3, 4, & 5 (For now), as they don't include anything special or extra, just new opcodes.
 
     We don't have access to python classes, so we use simple containers for them instead.
 
@@ -357,7 +357,7 @@ export class Depickler extends DataReader {
                     throw new Error(`Depickler.readPicke: Unknown protocol. ${this.protocol}`);
                 }
 
-                if(![ Protocols.Protocol3, Protocols.Protocol4, Protocols.Protocol5 ].includes(this.protocol)) {
+                if(![ Protocols.Protocol2, Protocols.Protocol3, Protocols.Protocol4, Protocols.Protocol5 ].includes(this.protocol)) {
                     throw new Error(`Depickler.readPickle: Unsupported protocol. ${Protocols[this.protocol]}`);
                 }
 

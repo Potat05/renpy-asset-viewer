@@ -36,7 +36,6 @@
 import Pako from "pako";
 import { DataReader } from "../../common/DataReader";
 import md5 from "md5";
-import { Depickler } from "../depickle";
 
 
 
@@ -51,15 +50,6 @@ export enum Slots {
     AfterStaticTransforms = 2
 }
 
-const SlotParsers = {
-    [Slots.Legacy]: Depickler.depickle,
-    [Slots.End]: () => {
-        throw new Error('SlotParser[Slot.End]: Catastrophic error, this should never be called and yet somehow did.');
-    },
-    [Slots.BeforeStaticTransforms]: Depickler.depickle,
-    [Slots.AfterStaticTransforms]: Depickler.depickle
-}
-
 type Chunk = {
     slot: Slots;
     offset: number;
@@ -67,7 +57,7 @@ type Chunk = {
 }
 
 export type DataChunk = Chunk & {
-    data: unknown;
+    data: ArrayBuffer;
 }
 
 
@@ -119,7 +109,7 @@ function loadScriptData(data: ArrayBuffer): DataChunk[] {
             slot: -1,
             offset: 0,
             length: reader.length,
-            data: Depickler.depickle(decompressed)
+            data: decompressed
         }];
 
         // TODO: Does this have md5 checksum?
@@ -152,7 +142,7 @@ function loadScriptData(data: ArrayBuffer): DataChunk[] {
 
         return {
             ...chunk,
-            data: SlotParsers[chunk.slot](decompressed, true)
+            data: decompressed
         }
 
     });

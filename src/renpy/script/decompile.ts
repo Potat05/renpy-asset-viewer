@@ -11,6 +11,7 @@
 
 */
 
+import { Depickler } from "../depickle";
 import { parseRenPyClass } from "./decompile_renpy";
 import { parseRenPyATLClass } from "./decompile_renpy_atl";
 import { parseRenPySL2Class } from "./decompile_renpy_sl2";
@@ -34,7 +35,7 @@ export type CompiledClass = {
     state: unknown;
 }
 
-type CompiledScript = [
+export type CompiledScript = [
     CompiledScriptHeader,
     CompiledClass[]
 ];
@@ -147,7 +148,9 @@ export function decompileScript(chunks: DataChunk[]): string {
         throw new Error('decompileScript: Could not find script chunk.');
     }
 
-    const data = (chunkOfInterest.data as unknown[])[0] as CompiledScript;
+    const depickled = Depickler.depickle(chunkOfInterest.data);
+
+    const data = (depickled as unknown[])[0] as CompiledScript;
 
 
 
@@ -168,11 +171,9 @@ export function decompileScript(chunks: DataChunk[]): string {
     for(const [ key, value ] of Object.entries(header)) {
         outStr += `#    ${key}: ${value}\n`;
     }
-    outStr += `# Decompilation is in early alpha, So please give feedback on bugs!\n`;
+    outStr += `# Decompilation is in very early alpha, so please give feedback on bugs!\n`;
     outStr += `\n`;
 
-
-    console.time('Decompile');
 
 
     const classes = data[1];
@@ -184,8 +185,6 @@ export function decompileScript(chunks: DataChunk[]): string {
 
     }
 
-
-    console.timeEnd('Decompile');
 
 
     return outStr;
