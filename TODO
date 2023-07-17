@@ -1,0 +1,7 @@
+
+Clean up Ren'Py code decompilation.
+
+Better UI
+
+Try to speed up depickling.
+Depickling is VERY slow right now and if theres any big speed ups would be very cool. :)
