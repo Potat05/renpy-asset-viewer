@@ -51,10 +51,7 @@ export enum ModuleNames {
 
 
 export function removeMultipleNewlines(str: string): string {
-    str = str.replaceAll('\n\n\n', '\n');
-    str = str.replaceAll('\n\n\n', '\n');
-    str = str.replaceAll('\n\n\n', '\n');
-    return str;
+    return str.replace(/([\s]+\n)+/g, '\n');
 }
 
 const indentationStr = '    ';
@@ -152,42 +149,39 @@ export function decompileScript(chunks: DataChunk[]): string {
 
     const data = (depickled as unknown[])[0] as CompiledScript;
 
-
-
-    let outStr = '';
-
-
-
     const header = data[0];
 
     if(header.version !== 5003000) {
         throw new Error(`decompileScript: Unknown header version. ${header.version}`);
     }
 
-    outStr += `# Ren'Py decompiled script.\n`;
-    outStr += `# Decompiled with renpy-asset-viewer\n`;
-    outStr += `# Decompiled on ${new Date()}\n`;
-    outStr += `# Script Header:\n`;
+
+    let outHeader = '';
+
+    outHeader += `# Ren'Py decompiled script.\n`;
+    outHeader += `# Decompiled with renpy-asset-viewer\n`;
+    outHeader += `# Decompiled on ${new Date()}\n`;
+    outHeader += `# Script Header:\n`;
     for(const [ key, value ] of Object.entries(header)) {
-        outStr += `#    ${key}: ${value}\n`;
+        outHeader += `#    ${key}: ${value}\n`;
     }
-    outStr += `# Decompilation is in very early alpha, so please give feedback on bugs!\n`;
-    outStr += `\n`;
+    outHeader += `# Decompilation is in very early alpha, so please give feedback on bugs!\n`;
+    outHeader += '\n\n\n';
 
 
+    let outCode = '';
 
     const classes = data[1];
 
     for(const _class of classes) {
 
-        outStr += parseClass(_class);
-        // outStr += `\n`;
+        outCode += parseClass(_class);
 
     }
 
 
 
-    return outStr;
+    return outHeader + removeMultipleNewlines(outCode);
 
 }
 
