@@ -51,7 +51,7 @@ export enum ModuleNames {
 
 
 export function removeMultipleNewlines(str: string): string {
-    return str.replace(/([\s]+\n)+/g, '\n');
+    return str.replace(/([\s]*\n)+/g, '\n');
 }
 
 const indentationStr = '    ';
