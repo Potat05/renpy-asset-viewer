@@ -1,4 +1,4 @@
-import { ModuleNames, type CompiledClass, parseClass, indent, removeMultipleNewlines } from "./decompile";
+import { ModuleNames, type CompiledClass, parseClass, indent } from "./decompile";
 
 
 
@@ -372,11 +372,7 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
             const state = _class.state as RenPyClassStates[RenPyModuleClassNames.Init];
 
-            let str = '';
-            for(const sub of state[1].block) {
-                str += parseClass(sub);
-            }
-            return str;
+            return state[1].block.map(parseClass).join('\n');
 
             break; }
 
@@ -435,8 +431,7 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
             const state = _class.state as RenPyClassStates[RenPyModuleClassNames.Python];
 
-            let code = parseClass(state[1].code);
-            code = removeMultipleNewlines(code);
+            const code = parseClass(state[1].code);
 
             let newlines: number[] = [];
             for(let i = 0; i != -1; i = code.indexOf('\n', i + 1)) {
@@ -448,7 +443,7 @@ export function parseRenPyClass(_class: CompiledClass): string {
             } else {
                 return `init python:\n${indent(code)}\n`;
             }
-            
+
             break; }
 
         case RenPyModuleClassNames.Return: {

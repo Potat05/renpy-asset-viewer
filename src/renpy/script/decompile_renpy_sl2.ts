@@ -1,5 +1,5 @@
 
-import { ModuleNames, indent, parseClass, removeMultipleNewlines, type CompiledClass, type CompiledModule } from "./decompile";
+import { ModuleNames, indent, parseClass, type CompiledClass, type CompiledModule } from "./decompile";
 
 
 
@@ -287,8 +287,7 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
 
             const state = _class.state as RenPySL2ClassStates[RenPySL2ModuleClassNames.SLPython];
 
-            let code = parseClass(state.code);
-            code = removeMultipleNewlines(code);
+            const code = parseClass(state.code);
 
             let newlines: number[] = [];
             for(let i = 0; i != -1; i = code.indexOf('\n', i + 1)) {
@@ -300,7 +299,7 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
             } else {
                 return `init python:\n${indent(code)}\n`;
             }
-            
+
             break; }
 
         case RenPySL2ModuleClassNames.SLIf: {

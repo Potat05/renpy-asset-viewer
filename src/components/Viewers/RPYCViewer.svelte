@@ -35,7 +35,7 @@
 
 <style>
 
-    pre {
+    pre, h1 {
         background-color: #222;
         color: white;
 
@@ -46,11 +46,6 @@
 
     .error {
         color: red;
-    }
-
-    h1 {
-        background-color: #222;
-        color: white;
     }
 
 </style>

@@ -50,15 +50,13 @@ export enum ModuleNames {
 
 
 
-export function removeMultipleNewlines(str: string): string {
-    return str.replace(/([\s]*\n)+/g, '\n');
+function removeMultipleNewlines(str: string): string {
+    // TODO: This doesn't work properly.
+    return str.replace(/^([\s]*\n)+/g, '\n');
 }
 
-const indentationStr = '    ';
-
 export function indent(str: string, indentation: number = 1): string {
-    const indentStr = indentationStr.repeat(indentation);
-    return str.split('\n').map(s => `${indentStr}${s}`).join('\n');
+    return str.split('\n').map(s => '    '.repeat(indentation) + s).join('\n');
 }
 
 
@@ -176,11 +174,12 @@ export function decompileScript(chunks: DataChunk[]): string {
     for(const _class of classes) {
 
         outCode += parseClass(_class);
+        outCode += '\n';
 
     }
 
 
-
+    
     return outHeader + removeMultipleNewlines(outCode);
 
 }
