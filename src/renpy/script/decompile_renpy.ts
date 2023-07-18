@@ -438,8 +438,13 @@ export function parseRenPyClass(_class: CompiledClass): string {
             let code = parseClass(state[1].code);
             code = removeMultipleNewlines(code);
 
-            if(!code.includes('\n')) {
-                return `$ ${code}\n`;
+            let newlines: number[] = [];
+            for(let i = 0; i != -1; i = code.indexOf('\n', i + 1)) {
+                newlines.push(i);
+            }
+
+            if(newlines.every(nl => nl == 0 || nl == code.length - 1)) {
+                return `$ ${code.replace('\n', '')}\n`;
             } else {
                 return `init python:\n${indent(code)}\n`;
             }
