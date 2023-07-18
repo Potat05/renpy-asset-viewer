@@ -287,8 +287,6 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
 
             const state = _class.state as RenPySL2ClassStates[RenPySL2ModuleClassNames.SLPython];
 
-            // TODO: '$' shorthand for this.
-
             let code = parseClass(state.code);
             code = removeMultipleNewlines(code);
 
