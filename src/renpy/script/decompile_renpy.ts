@@ -435,13 +435,14 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
             const state = _class.state as RenPyClassStates[RenPyModuleClassNames.Python];
 
-            // TODO: '$' shorthand for this.
-
             let code = parseClass(state[1].code);
             code = removeMultipleNewlines(code);
-            code = indent(code);
 
-            return `init python:\n${code}\n`;
+            if(!code.includes('\n')) {
+                return `$ ${code}\n`;
+            } else {
+                return `init python:\n${indent(code)}\n`;
+            }
             
             break; }
 

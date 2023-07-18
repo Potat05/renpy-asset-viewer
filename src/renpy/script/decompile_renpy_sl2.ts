@@ -291,9 +291,12 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
 
             let code = parseClass(state.code);
             code = removeMultipleNewlines(code);
-            code = indent(code);
 
-            return `init python:\n${code}\n`;
+            if(!code.includes('\n')) {
+                return `$ ${code}\n`;
+            } else {
+                return `init python:\n${indent(code)}\n`;
+            }
 
             break; }
 
