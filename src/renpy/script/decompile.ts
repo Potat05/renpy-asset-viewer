@@ -9,6 +9,13 @@
     TODO: This isn't really decompiling, It's more like prettyprinting instead.
     So maybe this should just be refactored to not used the word compiled but instead prettyprint, But IDK.
 
+
+    
+    NOTES:
+        I sorta just went into this with no idea how decompilation works with this sorta stuff.
+        I just tried to make it match as close as possible 1 to 1 to the actual source code of the compiled file.
+        So stuff may be very very wrong, and I hope anyone that has more experience with this stuff may help.
+        
 */
 
 import { Depickler } from "../depickle";
