@@ -191,7 +191,7 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
 
                 case 'renpy.text.text:Text': {
 
-                    return `text ${positionals(state.positional)}\n`;
+                    return `text ${positionals(state.positional)}${keywords(state.keyword, ' ', ' ')}\n`;
 
                     break; }
 
@@ -215,7 +215,7 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
 
                 case 'renpy.display.layout:Window': {
 
-                    return `window ${positionals(state.positional)}:\n${indent(keywords(state.keyword))}\n${indent(children(state.children))}\n`;
+                    return `${state.name}${state.positional.length == 0 ? '' : ` ${positionals(state.positional)}`}:\n${indent(keywords(state.keyword))}\n${indent(children(state.children))}\n`;
 
                     break; }
 

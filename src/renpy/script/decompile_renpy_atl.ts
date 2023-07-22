@@ -22,7 +22,7 @@ interface RenPyATLClassStates {
         duration: string | CompiledClass;
         expressions: [ CompiledClass, unknown ][]; // TODO: Figure out what unknowns is.
         loc: [ string, number ];
-        properties: unknown[];
+        properties: [ string, CompiledClass ][];
         revolution: null;
         splines: unknown[];
         warp_functions: null;
@@ -81,6 +81,9 @@ export function parseRenPyATLClass(_class: CompiledClass): string {
             }
             for(const expr of state.expressions) {
                 str += `${parseClass(expr[0])}\n`;
+            }
+            for(const prop of state.properties) {
+                str += `${prop[0]} ${parseClass(prop[1])}\n`;
             }
             return str;
 

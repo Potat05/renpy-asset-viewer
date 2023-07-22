@@ -73,11 +73,9 @@ interface RenPyClassStates {
         {
             code: CompiledClass;
             filename: string;
-            index: null;
             linenumber: string;
             name: [ string, number, number ];
             next: null;
-            operator: string;
             store: string;
             varname: string;
         }
@@ -259,7 +257,7 @@ interface RenPyClassStates {
             filename: string;
             has_caption: boolean;
             item_arguments: (CompiledClass | null)[];
-            items: [ string, string, null | CompiledClass[] ][];
+            items: [ string, string | null | CompiledClass, null | CompiledClass[] ][];
             linenumber: number;
             name: [ string, number, number ];
             next: null;
@@ -380,7 +378,13 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
             const state = _class.state as RenPyClassStates[RenPyModuleClassNames.Define];
 
-            return `define ${state[1].store.split('.').pop() ?? ''}.${state[1].varname} ${state[1].operator} ${parseClass(state[1].code)}\n`;
+            const store = state[1].store.split('.').pop() ?? '';
+
+            if(store == '' || store == 'store') {
+                return `define ${state[1].varname} ${state[1].operator} ${parseClass(state[1].code)}\n`;
+            } else {
+                return `define ${state[1].store.split('.').pop() ?? ''}.${state[1].varname} ${state[1].operator} ${parseClass(state[1].code)}\n`;
+            }
 
             break; }
 
@@ -421,9 +425,15 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
         case RenPyModuleClassNames.Default: {
 
-            const state = _class.state as RenPyClassStates[RenPyModuleClassNames.Define];
+            const state = _class.state as RenPyClassStates[RenPyModuleClassNames.Default];
 
-            return `default ${state[1].store.split('.').pop() ?? ''}.${state[1].varname} ${state[1].operator} ${parseClass(state[1].code)}\n`;
+            const store = state[1].store.split('.').pop() ?? '';
+
+            if(store == '' || store == 'store') {
+                return `default ${state[1].varname} = ${parseClass(state[1].code)}\n`;
+            } else {
+                return `default ${state[1].store.split('.').pop() ?? ''}.${state[1].varname} = ${parseClass(state[1].code)}\n`;
+            }
 
             break; }
 
@@ -513,7 +523,7 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
             const state = _class.state as RenPyClassStates[RenPyModuleClassNames.Transform];
 
-            return `transform ${state[1].varname}${state[1].parameters == null ? '' : `(${parseClass(state[1].parameters)})`}}:\n${indent(parseClass(state[1].atl))}\n`;
+            return `transform ${state[1].varname}${state[1].parameters == null ? '' : `(${parseClass(state[1].parameters)})`}:\n${indent(parseClass(state[1].atl))}\n`;
 
             break; }
         
@@ -577,7 +587,7 @@ export function parseRenPyClass(_class: CompiledClass): string {
                 if(i == 0) {
                     str += `if ${typeof entry[0] == 'string' ? entry[0] : parseClass(entry[0])}:\n${indent(entry[1].map(parseClass).join('\n'))}\n`;
                 } else {
-                    if(entry[0] != null) {
+                    if(entry[0] != null && entry[0] != 'True') {
                         str += `elif ${typeof entry[0] == 'string' ? entry[0] : parseClass(entry[0])}:\n${indent(entry[1].map(parseClass).join('\n'))}\n`;
                     } else {
                         str += `else:\n${indent(entry[1].map(parseClass).join('\n'))}\n`;
@@ -595,15 +605,23 @@ export function parseRenPyClass(_class: CompiledClass): string {
             let str = `menu${state[1].arguments == null ? '' : `(${parseClass(state[1].arguments)})`}:\n`;
             for(const item of state[1].items) {
 
-                // TODO: Item arguments.
                 str += indent(`"${item[0]}"`);
+
+                if(item[1] != 'True' && item[1] != null) {
+                    str += ' if ';
+                    if(typeof item[1] == 'string') {
+                        str += item[1];
+                    } else {
+                        str += parseClass(item[1]);
+                    }
+                }
 
                 if(item[2] == null) {
                     str += '\n';
                 } else {
                     str += `:\n`;
                     for(const itemdata of item[2]) {
-                        str += indent(parseClass(itemdata), 2);
+                        str += `${indent(parseClass(itemdata), 2)}\n`;
                     }
                 }
 
@@ -633,7 +651,7 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
             const state = _class.state as RenPyClassStates[RenPyModuleClassNames.While];
 
-            return `while ${parseClass(state[1].condition)}:\n${state[1].block.map(parseClass).join('\n')}\n`;
+            return `while ${parseClass(state[1].condition)}:\n${indent(state[1].block.map(parseClass).join('\n'))}\n`;
 
             break; }
 
