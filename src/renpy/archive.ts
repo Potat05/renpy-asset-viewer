@@ -208,26 +208,32 @@ export class ArchiveReader extends DataReader {
         const decompressed = Pako.inflate(buffer);
         const depickled = Depickler.depickle(decompressed);
 
-        const files = Object.fromEntries(Object.entries(depickled[0] as {[key: string]: [ number, number, Uint8Array ][]}).map(file => {
-            const path = file[0];
-            const entries = file[1];
+        // TODO: make this clean.
+        const files = Object.fromEntries(
+            Object.entries(depickled[0] as {[key: string]: [ number, number, Uint8Array ][]})
+                .map(file => {
+                    const path = file[0];
+                    const entries = file[1];
 
-            let sections: Section[] = [];
+                    let sections: Section[] = [];
 
-            for(const entry of entries) {
+                    for(const entry of entries) {
 
-                sections.push({
-                    offset: entry[0] ^ this.key,
-                    length: entry[1] ^ this.key
-                });
+                        sections.push({
+                            offset: entry[0] ^ this.key,
+                            length: entry[1] ^ this.key
+                        });
 
-            }
-            
-            return [
-                path,
-                new ArchiveBlob(this.blob, sections)
-            ];
-        }));
+                    }
+                    
+                    return [
+                        path,
+                        new ArchiveBlob(this.blob, sections)
+                    ] as [ string, ArchiveBlob ];
+                }).sort((a, b) => {
+                    return a[0].localeCompare(b[0]);
+                })
+        );
 
         return ArchiveDirectory.fromFileList(files);
 
