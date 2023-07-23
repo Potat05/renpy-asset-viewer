@@ -19,6 +19,7 @@ export const extension_icons = {
     '.mp4': Icon_Film,
     '.mov': Icon_Film,
     '.webm': Icon_Film,
+    '.ogv': Icon_Film,
     // Audio
     '.mp3': Icon_VolumeUp,
     '.ogg': Icon_VolumeUp,
@@ -47,6 +48,7 @@ export const extension_viewers = {
     '.mp4': Viewer_Video,
     '.mov': Viewer_Video,
     '.webm': Viewer_Video,
+    '.ogv': Viewer_Video,
     // Ren'Py
     '.rpyc': Viewer_RPYC
 }
