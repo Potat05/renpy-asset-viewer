@@ -419,7 +419,8 @@ export function parseRenPyClass(_class: CompiledClass): string {
 
             const args = _class.args as RenPyClassArgs[RenPyModuleClassNames.PyExpr];
 
-            return args[3];
+            // TODO - What is this? expr is either on 3 or 0 if 3 doesn't exist.
+            return args[3] ?? args[0];
 
             break; }
 

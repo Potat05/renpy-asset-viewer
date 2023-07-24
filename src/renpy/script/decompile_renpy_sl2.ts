@@ -61,7 +61,7 @@ interface RenPySL2ClassStates {
         serial: number;
     };
     [RenPySL2ModuleClassNames.SLIf]: {
-        entries: [[ CompiledClass, CompiledClass ]]; // Condition, Block
+        entries: [[ CompiledClass | string, CompiledClass ]]; // Condition, Block
         location: [ string, number ];
         serial: number;
     };
@@ -130,7 +130,7 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
 
             return `screen ${state.name}${state.parameters == null ? '' : `(${parseClass(state.parameters)})`}:\n${indent(
                 (state.tag == null ? '' : state.tag) + '\n' +
-                state.keyword.map(kw => `${kw[0]} ${parseClass(kw[1])}\n`) +
+                state.keyword.map(kw => `${kw[0]} ${parseClass(kw[1])}\n`).join('\n') +
                 state.children.map(parseClass).join('')
             )}\n`;
 
@@ -185,7 +185,7 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
                 case 'renpy.display.layout:MultiBox': {
 
                     // TODO: Is keywords suppose to be like 'box *keywords*:' or 'box:\n*keywords*'?
-                    return `${state.name}${keywords(state.keyword, ' ', ' ')}:\n${indent(children(state.children))}\n`;
+                    return `${state.style}${keywords(state.keyword, ' ', ' ')}:\n${indent(children(state.children))}\n`;
 
                     break; }
 
@@ -310,10 +310,10 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
             for(let i = 0; i < state.entries.length; i++) {
                 const entry = state.entries[i];
                 if(i == 0) {
-                    str += `if ${parseClass(entry[0])}:\n${indent(parseClass(entry[1]))}\n`;
+                    str += `if ${typeof entry[0] == 'string' ? entry[0] : parseClass(entry[0])}:\n${indent(parseClass(entry[1]))}\n`;
                 } else {
                     if(entry[0] != null) {
-                        str += `elif ${parseClass(entry[0])}:\n${indent(parseClass(entry[1]))}\n`;
+                        str += `elif ${typeof entry[0] == 'string' ? entry[0] : parseClass(entry[0])}:\n${indent(parseClass(entry[1]))}\n`;
                     } else {
                         str += `else:\n${indent(parseClass(entry[1]))}\n`;
                     }
@@ -331,7 +331,12 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
             for(const child of state.children) {
                 str += parseClass(child);
             }
-            str = indent(str);
+            // Pass keyword is used for empty block.
+            if(str.length == 0) {
+                str += 'pass\n';
+            }
+            // Blocks are expected to be indented by parent.
+            // str = indent(str);
             return str;
 
             break; }

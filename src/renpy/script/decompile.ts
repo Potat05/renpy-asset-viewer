@@ -168,7 +168,7 @@ export function decompileScript(chunks: DataChunk[]): string {
     outHeader += `# Decompiled on ${new Date()}\n`;
     outHeader += `# Script Header:\n`;
     for(const [ key, value ] of Object.entries(header)) {
-        outHeader += `#    ${key}: ${value}\n`;
+        outHeader += `#     ${key}: ${value}\n`;
     }
     outHeader += `# Decompilation is in very early alpha, so please give feedback on bugs!\n`;
     outHeader += '\n\n\n';
