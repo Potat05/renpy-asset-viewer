@@ -43,6 +43,23 @@
 
     }
 
+    function download() {
+
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(file);
+        a.download = path.split('/').pop() ?? 'download-unknown';
+        a.click();
+
+    }
+
+    function keydown(ev: KeyboardEvent) {
+
+        if(ev.code == 'KeyD') {
+            download();
+        }
+
+    }
+
 </script>
 
 <style>
@@ -66,7 +83,7 @@
 
 </style>
 
-<button class="file" on:click={open}>
+<button class="file" on:click={open} on:keydown={keydown}>
     <span class="icon" bind:this={iconContainer}/>
     {path.slice(path.lastIndexOf('/') + 1)}
 </button>
