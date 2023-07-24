@@ -58,8 +58,8 @@ export enum ModuleNames {
 
 
 function removeMultipleNewlines(str: string): string {
-    // TODO: This doesn't work properly.
-    return str.replace(/^([\s]*\n)+/g, '\n');
+    // TODO: this removes in quotes.
+    return str.replace(/\s+(?=(\n|$))/g, '');
 }
 
 export function indent(str: string, indentation: number = 1): string {
