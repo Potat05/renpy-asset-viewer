@@ -66,7 +66,7 @@
         height: 100%;
     }
 
-    .overlay {
+    /* .overlay {
         user-select: none;
         pointer-events: none;
         position: fixed;
@@ -90,7 +90,7 @@
         
         font-size: larger;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
+    } */
 
 </style>
 
