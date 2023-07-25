@@ -94,13 +94,13 @@
 
 </style>
 
-<div class="overlay">
+<!-- <div class="overlay">
     <div class="warning">
         All files that are inputted into this site are ONLY processed client-side.
         <br />
         This means we DO NOT know anything about the files you input.
     </div>
-</div>
+</div> -->
 
 <div
     class="page"
