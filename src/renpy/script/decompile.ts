@@ -199,9 +199,30 @@ export function decompileScript(chunks: DataChunk[], options: DecompileScriptOpt
 
 
 
+function blockitize(str: string): string[][] {
+    let blocks: string[][] = [];
+    let curBlockIndent = -1;
+
+    let lines = str.split('\n');
+    for(let i = 0; i < lines.length; i++) {
+        const indent = lines[i].length - lines[i].trimStart().length;
+
+        if(indent != curBlockIndent) {
+            blocks.push([]);
+            curBlockIndent = indent;
+        }
+
+        blocks[blocks.length - 1].push(lines[i]);
+    }
+
+    return blocks;
+}
+
+
+
 /**
- * The script decompilation output is very messy.
- * So we clean it up a bit with this.
+ * The script decompilation output is very messy.  
+ * So we clean it up a bit.  
  */
 function cleanScript(str: string): string {
     
@@ -209,8 +230,11 @@ function cleanScript(str: string): string {
     // TODO - Don't remove do this in quotes.
     str = str.replace(/\s+(?=(\n|$))/g, '');
 
-    // Add extra spacing between indentation changes.
-    // TODO
+    // Add a bunch of extra spacing to blocks.
+    // let blocks = blockitize(str);
+    // TODO - Do this.
+    // str = blocks.map(block => block.join('\n')).join('\n');
+
 
     return str;
 
