@@ -57,11 +57,6 @@ export enum ModuleNames {
 
 
 
-function removeMultipleNewlines(str: string): string {
-    // TODO: this removes in quotes.
-    return str.replace(/\s+(?=(\n|$))/g, '');
-}
-
 export function indent(str: string, indentation: number = 1): string {
     return str.split('\n').map(s => '    '.repeat(indentation) + s).join('\n');
 }
@@ -142,7 +137,14 @@ export function parseClass(_class: CompiledClass): string {
 
 
 
-export function decompileScript(chunks: DataChunk[]): string {
+interface DecompileScriptOptions {
+    /**
+     * @default true  
+     */
+    cleanOutput?: boolean;
+}
+
+export function decompileScript(chunks: DataChunk[], options: DecompileScriptOptions = {}): string {
 
     const chunkOfInterest = chunks.find(chunk => chunk.slot == Slots.BeforeStaticTransforms);
 
@@ -185,10 +187,31 @@ export function decompileScript(chunks: DataChunk[]): string {
 
     }
 
+    if(options.cleanOutput ?? true) {
+        outCode = cleanScript(outCode);
+    }
 
-    
-    return outHeader + removeMultipleNewlines(outCode);
+
+
+    return outHeader + outCode;
 
 }
 
 
+
+/**
+ * The script decompilation output is very messy.
+ * So we clean it up a bit with this.
+ */
+function cleanScript(str: string): string {
+    
+    // Remove multiple newlines next to each other.
+    // TODO - Don't remove do this in quotes.
+    str = str.replace(/\s+(?=(\n|$))/g, '');
+
+    // Add extra spacing between indentation changes.
+    // TODO
+
+    return str;
+
+}
