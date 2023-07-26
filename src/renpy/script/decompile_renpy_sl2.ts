@@ -61,13 +61,13 @@ interface RenPySL2ClassStates {
         serial: number;
     };
     [RenPySL2ModuleClassNames.SLIf]: {
-        entries: [[ CompiledClass | string, CompiledClass ]]; // Condition, Block
+        entries: [ CompiledClass | string, CompiledClass ][];
         location: [ string, number ];
         serial: number;
     };
     [RenPySL2ModuleClassNames.SLBlock]: {
         children: CompiledClass[];
-        keyword: unknown[];
+        keyword: [ string, CompiledClass ][];
         location: [ string, number ];
         serial: number;
     };
@@ -330,6 +330,9 @@ export function parseRenPySL2Class(_class: CompiledClass): string {
             let str = '';
             for(const child of state.children) {
                 str += parseClass(child);
+            }
+            for(const kw of state.keyword) {
+                str += `${kw[0]} ${parseClass(kw[1])}\n`;
             }
             // Pass keyword is used for empty block.
             if(str.length == 0) {
