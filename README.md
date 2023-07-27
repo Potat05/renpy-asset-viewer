@@ -1,7 +1,9 @@
 
-# renpy-asset-viewer
+# [renpy-asset-viewer](https://potat05.github.io/renpy-asset-viewer/)
 
 View Ren'Py project assets and decompile code files.
+
+Use the app here: https://potat05.github.io/renpy-asset-viewer/
 
 # How to Use
 
