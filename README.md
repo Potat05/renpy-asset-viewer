@@ -1,38 +1,26 @@
-# create-svelte
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+# renpy-asset-viewer
 
-## Creating a project
+View Ren'Py project assets and decompile code files.
 
-If you're seeing this, you've probably already done this step. Congrats!
+# How to Use
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Simply drag the game folder into the browser window and a file explorer will pop up.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+You may explore the game project and decompile and extract assets.
 
-## Developing
+To download an asset select it and press 'D'
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+The UI is very much W.I.P., sorry if it is a bit verbose.
 
-```bash
-npm run dev
+# Developing
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Once you've got this repository install dependencies with `npm install` (or `pnpm install` or `yarn`).
 
-## Building
+To start a development server with `npm run dev`, with optional flags `-- --open` to open app in a new browser tab.
 
-To create a production version of your app:
+# Building
 
-```bash
-npm run build
-```
+To create a production version of this run `npm run build`.
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+And to preview that production version use `npm run preview`.
