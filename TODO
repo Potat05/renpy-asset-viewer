@@ -2,7 +2,7 @@
 Clean up Ren'Py code decompilation.
 Better formatting in Ren'Py code decompilation.
 Fix ALOT of bugs & do TODOs.
-Also, make it so we don't have to define state & args inside the switch cases.
+Also, make it so we don't have to define state & args inside the parsing switch cases.
 
 Better UI
 
