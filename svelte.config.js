@@ -11,7 +11,8 @@ const config = {
         // adapter-static is used for github pages, see https://kit.svelte.dev/docs/adapter-static.
 		adapter: adapter(),
         paths: {
-            base: process.env.NOVE_ENV === 'production' ? '/renpy-asset-viewer' : ''
+            // TODO: Only use base path on gh-pages.
+            base: '/renpy-asset-viewer'
         }
 	}
 };
