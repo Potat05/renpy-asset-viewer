@@ -9,7 +9,10 @@ const config = {
 
 	kit: {
         // adapter-static is used for github pages, see https://kit.svelte.dev/docs/adapter-static.
-		adapter: adapter()
+		adapter: adapter(),
+        paths: {
+            base: process.env.NOVE_ENV === 'production' ? '/renpy-asset-viewer' : ''
+        }
 	}
 };
 
