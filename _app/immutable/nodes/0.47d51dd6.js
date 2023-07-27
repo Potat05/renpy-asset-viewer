@@ -1,0 +1,5 @@
+import{s as m,r as h,f as d,a as v,u as y,g as f,v as g,d as i,c as $,h as b,j as C,w as E,i as p,x as S,y as j,z as q}from"../chunks/scheduler.6bc22ceb.js";import{S as w,i as L,a as k,t as x}from"../chunks/index.a81d33f5.js";function z(o){let s,c=`body {\r
+            padding: 0;\r
+            margin: 0;\r
+            background-color: #111;\r
+        }`,r,a,n;const _=o[1].default,e=h(_,o,o[0],null);return{c(){s=d("style"),s.textContent=c,r=v(),a=d("div"),e&&e.c(),this.h()},l(t){const l=y("svelte-pqbuc1",document.head);s=f(l,"STYLE",{"data-svelte-h":!0}),g(s)!=="svelte-vjtw36"&&(s.textContent=c),l.forEach(i),r=$(t),a=f(t,"DIV",{class:!0});var u=b(a);e&&e.l(u),u.forEach(i),this.h()},h(){C(a,"class","app svelte-v5crio")},m(t,l){E(document.head,s),p(t,r,l),p(t,a,l),e&&e.m(a,null),n=!0},p(t,[l]){e&&e.p&&(!n||l&1)&&S(e,_,t,t[0],n?q(_,t[0],l,null):j(t[0]),null)},i(t){n||(k(e,t),n=!0)},o(t){x(e,t),n=!1},d(t){t&&(i(r),i(a)),i(s),e&&e.d(t)}}}function D(o,s,c){let{$$slots:r={},$$scope:a}=s;return o.$$set=n=>{"$$scope"in n&&c(0,a=n.$$scope)},[a,r]}class V extends w{constructor(s){super(),L(this,s,D,z,m,{})}}export{V as component};
